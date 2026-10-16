@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Bag Security System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">⌁</div>
+      <div><div class="eyebrow">Portable security device</div><h1>Smart Bag Security System</h1></div>
+    </div>
+    <div class="topright">
+      <span class="pill sim"><span class="dot"></span> SIMULATION MODE</span>
+      <button class="ghost" id="simulateBtn">Simulate movement</button>
+      <button class="ghost" id="resetBtn">Reset demo</button>
+    </div>
+  </header>
+  <div class="offline-banner" id="offlineBanner">⚠ Device offline — controls are simulated locally. No hardware commands or real notifications are being sent.</div>
+  <main class="grid">
+    <section class="stack">
+      <div class="card hero">
+        <div class="hero-head">
+          <div><div class="eyebrow" style="color:#b8c7df">YOUR DEVICE · BAG UNIT 01</div><h2>Keep your bag protected.</h2><p>Monitor movement, choose how the system responds, and manage alerts from one place.</p></div>
+          <div class="mode-tag" id="heroMode">◉ Security Mode</div>
+        </div>
+        <div class="hero-bottom">
+          <div class="system-state"><div class="state-icon" id="heroStateIcon">🛡️</div><div><div class="state-label">Current security status</div><div class="state-value" id="heroState">Monitoring</div></div></div>
+          <div class="master"><span>System <b id="masterText">ON</b></span><input aria-label="Master system on or off" class="switch" type="checkbox" id="masterSwitch" checked></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Device overview</h3><span class="sub">Live status · simulated</span></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-top"><span>Wi-Fi connection</span><span class="stat-icon">⌁</span></div><div class="stat-value status-orange" id="wifiValue">Offline</div><div class="stat-note" id="wifiNote">No device connected</div></div>
+          <div class="stat"><div class="stat-top"><span>Movement sensor</span><span class="stat-icon">⌖</span></div><div class="stat-value status-green" id="movementValue">Stable</div><div class="stat-note" id="movementNote">MPU6050 · simulated</div></div>
+          <div class="stat"><div class="stat-top"><span>Zip mechanism</span><span class="stat-icon">▣</span></div><div class="stat-value" id="lockValue">Unverified</div><div class="stat-note" id="lockNote">Hardware feedback unavailable</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Security mode</h3><span class="sub">Choose response behaviour</span></div>
+        <div class="mode-options">
+          <button class="mode" data-mode="disarmed"><span class="emoji">○</span><span><strong>Disarmed</strong><small>Monitoring and security responses off</small></span></button>
+          <button class="mode" data-mode="silent"><span class="emoji">◌</span><span><strong>Silent Mode</strong><small>Monitor and notify without audible alarm</small></span></button>
+          <button class="mode active" data-mode="security"><span class="emoji">⛨</span><span><strong>Security Mode</strong><small>Run enabled security responses</small></span></button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Movement detection</h3><span class="pill" id="movementPill" style="background:var(--green-bg);color:var(--green)">● Stable</span></div>
+        <div class="range-wrap">
+          <div class="range-row"><label for="sensitivity"><b>Movement sensitivity</b></label><strong><span id="sensitivityVal">62</span><small>/100</small></strong></div>
+          <input class="range" id="sensitivity" type="range" min="0" max="100" value="62">
+          <div class="range-labels"><span>Low · larger movement required</span><span>High · smaller movement</span></div>
+        </div>
+        <div class="footerline"><span>Sensor: MPU6050 (simulated)</span><span id="sensorHealth">Sensor health: not verified</span></div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Recent activity</h3><button class="mini-button" id="clearHistory">Clear history</button></div>
+        <div class="history" id="history">
+          <div class="event"><div class="event-icon">✓</div><div class="event-body"><strong>Dashboard initialized</strong><p>Simulation ready. Hardware has not been connected.</p></div><div class="event-time">Just now</div></div>
+        </div>
+      </div>
+    </section>
+    <aside class="stack">
+      <div class="card">
+        <div class="section-title"><h3>Security controls</h3><span class="sub">Configurable</span></div>
+        <div class="control-list">
+          <div class="control"><div class="control-left"><div class="control-icon">✳</div><div><strong>LED warning</strong><small>Flash the bag LED on suspicious movement</small></div></div><input class="switch feature" type="checkbox" id="ledToggle" checked aria-label="LED warning"></div>
+          <div class="control"><div class="control-left"><div class="control-icon">◖</div><div><strong>Smart buzzer</strong><small>Sound after the configured delay</small></div></div><input class="switch feature" type="checkbox" id="buzzerToggle" checked aria-label="Smart buzzer"></div>
+          <div class="control"><div class="control-left"><div class="control-icon">♧</div><div><strong>Phone notifications</strong><small>Send alerts when cloud connection is available</small></div></div><input class="switch feature" type="checkbox" id="notifyToggle" checked aria-label="Phone notifications"></div>
+          <div class="control"><div class="control-left"><div class="control-icon">≋</div><div><strong>Phone vibration</strong><small>Requires supported phone/app notification handling</small></div></div><input class="switch feature" type="checkbox" id="vibrateToggle" checked aria-label="Phone vibration"></div>
+          <div class="control"><div class="control-left"><div class="control-icon">ϟ</div><div><strong>Phone flashlight</strong><small>Requires compatible phone-side support</small></div></div><input class="switch feature" type="checkbox" id="flashToggle" aria-label="Phone flashlight"></div>
+        </div>
+        <div class="control" style="padding-bottom:0;margin-top:12px">
+          <div class="control-left"><div class="control-icon">◷</div><div><strong>Buzzer activation delay</strong><small>Time allowed for owner acknowledgement</small></div></div>
+          <select id="delaySelect" class="delay-select" aria-label="Buzzer activation delay"><option value="0">0 sec</option><option value="5" selected>5 sec</option><option value="10">10 sec</option><option value="15">15 sec</option><option value="30">30 sec</option></select>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Alert centre</h3><span class="sub" id="alertCounter">No active alert</span></div>
+        <div id="alertArea"><div class="alertbox green"><div>✓</div><div><strong>All quiet</strong><p>No suspicious movement is currently being simulated.</p></div></div></div>
+        <div class="footerline"><span id="countdownLabel">Buzzer countdown: inactive</span><button class="mini-button" id="ackBtn" disabled>Acknowledge alert</button></div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Zip-lock mechanism</h3><span class="pill" style="background:#f1f4f9;color:var(--muted)" id="lockPill">UNVERIFIED</span></div>
+        <div class="lock-status"><div class="lock-symbol unknown" id="lockSymbol">?</div><div><strong id="lockTitle">Lock state unverified</strong><div class="sub" id="lockDesc" style="margin-top:4px">No physical feedback is available in simulation.</div></div></div>
+        <div class="lock-actions"><button class="ghost" id="unlockBtn">Request unlock</button><button class="primary" id="lockBtn">Request lock</button></div>
+        <div class="footerline"><span>Prototype mechanism only</span><span>Not a certified lock</span></div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>System notes</h3><span class="sub">Important</span></div>
+        <div class="sub" style="line-height:1.65">This is a local simulation. Wi-Fi, MPU6050 readings, phone push notifications, flashlight control, buzzer output and servo position are not connected to real hardware. Use the movement simulator to preview the alert flow.</div>
+      </div>
+    </aside>
+  </main>
+  <div class="foot">SMART BAG SECURITY SYSTEM · Dashboard prototype v0.1 · Simulation only · Hardware integration pending</div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js" defer></script>
+</body>
+</html>
